@@ -13,7 +13,19 @@ abstract class Persona implements Runnable {
     }
 
     public void run() {
-        System.out.println("");
+        System.out.println(nome + " ora esiste !");
+
+        do {
+
+        } while (!bagno.entra());
+
+        try {
+            wait(10000);
+        } catch (InterruptedException e) {}
+
+        bagno.esci();
+
+        System.out.println(nome + " ora si sente libero");
     }
 
 }
