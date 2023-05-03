@@ -6,6 +6,7 @@ abstract class Persona implements Runnable {
     
     private Bagno bagno;
     private String nome;
+    private static Object lock = new Object();
 
     public Persona(String nome, Bagno bagno) {
         this.nome = nome;
@@ -13,19 +14,42 @@ abstract class Persona implements Runnable {
     }
 
     public void run() {
-        System.out.println(nome + " ora esiste !");
+        boolean ciclo = true;
 
-        do {
+        while (ciclo) {
+            if (bagno.entra(nome)) {
 
-        } while (!bagno.entra());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("[ERRORE] InterruptedException");
+                }
+    
+                bagno.esci();
+                ciclo = false;
 
-        try {
-            wait(10000);
-        } catch (InterruptedException e) {}
+                try {
+                    synchronized (lock) {
+                        lock.notifyAll();
+                    }
+                } catch (IllegalMonitorStateException e) {
+                    System.out.println("[ERRORE] IllegalMonitorState");
+                }
 
-        bagno.esci();
+            } else {
 
-        System.out.println(nome + " ora si sente libero");
+                try {
+                    synchronized (lock) {
+                        lock.wait();
+                    }
+                } catch (InterruptedException e) {
+                    System.out.println("[ERRORE] Interrupted");
+                } catch (IllegalMonitorStateException e) {
+                    System.out.println("[ERRORE] IllegalMonitorState");
+                }
+
+            }
+        }
     }
 
 }

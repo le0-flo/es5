@@ -9,17 +9,17 @@ public class Bagno {
         occupato = false;
     }
 
-    public Boolean entra() {
+    public synchronized Boolean entra(String nome) {
         if (!occupato) {
             occupato = true;
-            System.out.println("Il bagno " + tipo + " è occupato");
+            System.out.println("Il bagno " + tipo + " è occupato da " + nome);
+            
             return true;
-        } else return false; 
+        } else return false;
     }
 
-    public void esci() {
+    public synchronized void esci() {
         occupato = false;
         System.out.println("Il bagno " + tipo + " è libero");
     }
-
 }
