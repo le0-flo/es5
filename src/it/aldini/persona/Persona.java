@@ -2,11 +2,9 @@ package it.aldini.persona;
 
 import it.aldini.cessi.Bagno;
 
-abstract class Persona implements Runnable {
-    
+public class Persona implements Runnable {
     private Bagno bagno;
     private String nome;
-    private static Object lock = new Object();
 
     public Persona(String nome, Bagno bagno) {
         this.nome = nome;
@@ -28,27 +26,7 @@ abstract class Persona implements Runnable {
                 bagno.esci();
                 ciclo = false;
 
-                try {
-                    synchronized (lock) {
-                        lock.notifyAll();
-                    }
-                } catch (IllegalMonitorStateException e) {
-                    System.out.println("[ERRORE] IllegalMonitorState");
-                }
-
-            } else {
-
-                try {
-                    synchronized (lock) {
-                        lock.wait();
-                    }
-                } catch (InterruptedException e) {
-                    System.out.println("[ERRORE] Interrupted");
-                } catch (IllegalMonitorStateException e) {
-                    System.out.println("[ERRORE] IllegalMonitorState");
-                }
-
-            }
+            } else {}
         }
     }
 

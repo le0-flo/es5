@@ -5,8 +5,8 @@ public class Bagno {
     private Boolean occupato;
 
     public Bagno(String tipo) {
-        this.tipo = tipo;
         occupato = false;
+        this.tipo = tipo;
     }
 
     public synchronized Boolean entra(String nome) {
@@ -15,11 +15,23 @@ public class Bagno {
             System.out.println("Il bagno " + tipo + " è occupato da " + nome);
             
             return true;
-        } else return false;
+        } else {
+            try {
+                wait();
+            } catch (IllegalMonitorStateException e) {
+                System.out.println("[ERRORE] IllegalMonitorException");
+            } catch (InterruptedException e) {
+                System.out.println("[ERRORE] InterruptedException");
+            }
+            
+            return false;
+        }
     }
 
     public synchronized void esci() {
         occupato = false;
         System.out.println("Il bagno " + tipo + " è libero");
+
+        notifyAll();
     }
 }

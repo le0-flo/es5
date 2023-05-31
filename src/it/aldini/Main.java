@@ -1,29 +1,26 @@
 package it.aldini;
 
-import it.aldini.persona.Donna;
-import it.aldini.persona.Uomo;
+import it.aldini.cessi.Bagno;
+import it.aldini.persona.Persona;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Uomo u1 = new Uomo("Gianni");
-        Uomo u2 = new Uomo("Marco");
-        Uomo u3 = new Uomo("Caligola");
-        Donna d1 = new Donna("Anna");
-        Donna d2 = new Donna("Marta");
-        Donna d3 = new Donna("Giorgia");
 
-        Thread thu1 = new Thread(u1);
-        Thread thu2 = new Thread(u2);
-        Thread thu3 = new Thread(u3);
-        Thread thd1 = new Thread(d1);
-        Thread thd2 = new Thread(d2);
-        Thread thd3 = new Thread(d3);
+        Bagno donne = new Bagno("donne");
+        Bagno uomini = new Bagno("uomini");
 
-        thu1.start();
-        thu2.start();
-        thu3.start();
-        thd1.start();
-        thd2.start();
-        thd3.start();
+        Thread th1 = new Thread(new Persona("Gianni", uomini));
+        Thread th2 = new Thread(new Persona("Gianna", donne));
+        Thread th3 = new Thread(new Persona("Giacomo", uomini));
+        Thread th4 = new Thread(new Persona("Marina", donne));
+        Thread th5 = new Thread(new Persona("Marta", donne));
+        Thread th6 = new Thread(new Persona("Leonardo", uomini));
+
+        th1.start();
+        th2.start();
+        th3.start();
+        th4.start();
+        th5.start();
+        th6.start();
     }
 }
